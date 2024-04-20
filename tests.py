@@ -26,7 +26,7 @@ def add_calendar_event():
     return requests.post(url, json=json_data).json()
 
 def delete_calendar_event():
-
+    pass
 
 if __name__ == '__main__':
     print(add_calendar_event())
