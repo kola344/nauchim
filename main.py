@@ -8,7 +8,7 @@ application = Flask(__name__)
 def index_page():
     return 'Hello World'
 
-@application.route('/get_calendar_events')
+@application.route('/api/get_calendar_events')
 def get_calendar_events_page():
     try:
         calendar_events_base = db.calendar_events_db()
@@ -17,7 +17,7 @@ def get_calendar_events_page():
     except:
         return jsonify({"status": False})
 
-@application.route('/add_calendar_event', methods=["POST"])
+@application.route('/api/add_calendar_event', methods=["POST"])
 def add_calendar_event_page():
     data = request.json
     if data['token'] == config.token:
@@ -29,7 +29,7 @@ def add_calendar_event_page():
             return jsonify({"status": False})
     abort(401)
 
-@application.route('/delete_calendar_event')
+@application.route('/api/delete_calendar_event')
 def delete_calendar_event_page():
     data = request.json
     if data['token'] == config.token:
