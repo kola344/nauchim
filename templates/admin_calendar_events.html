@@ -65,17 +65,28 @@
 			background-color: red;
 			border-radius: 5px;
 		}
+		.back_button {
+			padding: 10px;
+			text-decoration: none;
+			color: lightgray;
+			border-radius: 5px;
+			background-color: gray;
+		}
+		.back_button:hover {
+			color: white;
+		}
 	</style>
 </head>
 <body>
+	<a class='back_button' href='{{admin_main_url}}'>Назад</a>
 	<center><div class='panel'>
 		<div class='event'><a class='new_event' href='{{url_new_event}}'>+</a></div>
 		{% for event_id, event in events.items() %}
 		<div class='event'>
-			{{event["name"]}}<br>
+			{{event["event_name"]}}<br>
 			{{event["description"]}}<br>
 			Организатор: {{event["organizer"]}}<br>
-			Регион: {{event["region"]}}
+			Регион: {{event["region"]}}<br>
 			Формат: {{event["format"]}}<br>
 			Направление: {{event["direction"]}}<br>
 			Ответственное лицо: {{event["person"]}}<br>
