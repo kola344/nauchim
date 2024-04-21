@@ -90,9 +90,17 @@ def admin_calendar_add_event_page():
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event')
     abort(404)
 
-@application.route('/admin/dele')
-def delelalfasd():
-    pass
+@application.route('/admin/del_calendar_event')
+def admin_del_calendar_event_page():
+    cookie = request.cookies.get('token')
+    event_name = request.args.get('event_name')
+    if cookie == config.token:
+        dbase = db.calendar_events_db()
+        dbase.delete_event(event_name)
+        events = dbase.get_events_json()
+        return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event')
+
+    abort(404)
 
 if __name__ == '__main__':
     application.run(debug=True)
