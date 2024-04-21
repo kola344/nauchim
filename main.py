@@ -47,18 +47,18 @@ def delete_calendar_event_apipage():
 def admin_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
-        return render_template('admin_main.html', url_calendar_events=f'{config.main_url}admin/calendar_events')
-    return render_template('admin_auth.html', url=f'{config.main_url}admin/auth', error='')
+        return render_template('admin_main.html', url_calendar_events=f'/admin/calendar_events')
+    return render_template('admin_auth.html', url=f'/admin/auth', error='')
 
 @application.route('/admin/auth', methods=["POST"])
 def admin_auth_page():
     data = request.form
     password = data['password']
     if password == config.token:
-        resp = make_response(render_template('admin_main.html', url_calendar_events=f'{config.main_url}admin/calendar_events'))
+        resp = make_response(render_template('admin_main.html', url_calendar_events=f'/admin/calendar_events'))
         resp.set_cookie('token', config.token, 30*24*60*60)
         return resp
-    return render_template('admin_auth.html', url=f'{config.main_url}admin/auth', error='Неверный пароль')
+    return render_template('admin_auth.html', url=f'/admin/auth', error='Неверный пароль')
 
 @application.route('/admin/calendar_events')
 def admin_calendar_events_page():
@@ -66,14 +66,14 @@ def admin_calendar_events_page():
     if cookie == config.token:
         dbase = db.calendar_events_db()
         events = dbase.get_events_json()
-        return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event', admin_main_url=f'{config.main_url}admin')
+        return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
     abort(404)
 
 @application.route('/admin/add_new_calendar_event')
 def admin_add_new_calendar_event_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
-        return render_template('admin_calendar_add_event.html', url_back=f'{config.main_url}admin/calendar_events', url=f'{config.main_url}admin/calendar/add_event')
+        return render_template('admin_calendar_add_event.html', url_back=f'/admin/calendar_events', url=f'/admin/calendar/add_event')
     abort(404)
 
 @application.route('/admin/calendar/add_event', methods=["POST"])
@@ -84,7 +84,7 @@ def admin_calendar_add_event_page():
         dbase = db.calendar_events_db()
         dbase.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'])
         events = dbase.get_events_json()
-        return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event', admin_main_url=f'{config.main_url}admin')
+        return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
     abort(404)
 
 @application.route('/admin/del_calendar_event')
@@ -95,8 +95,8 @@ def admin_del_calendar_event_page():
         dbase = db.calendar_events_db()
         dbase.delete_event(event_name)
         events = dbase.get_events_json()
-        return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event', admin_main_url=f'{config.main_url}admin')
+        return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
     abort(404)
 
 if __name__ == '__main__':
-    application.run(host='10.10.34.249', port=25565, debug=True)
+    application.run(debug=True)
