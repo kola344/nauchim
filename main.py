@@ -30,6 +30,7 @@ def get_calendar_events_with_filters():
         data = calendar_events_base.get_events_with_filters_json(direction, format, organizer, region)
         return jsonify({"status": True, "data": data})
     except Exception as e:
+        print(e)
         return jsonify({"status": False})
 
 @application.route('/api/add_calendar_event', methods=["POST"])

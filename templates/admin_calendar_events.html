@@ -103,7 +103,7 @@
 			email: {{event["email"]}}<br>
 			Начало регистрации: {{event["start_registration"]}}<br>
 			Даты проведения: {{event["dates"]}}<br>
-			<button onclick='alert("{{event["full_description"]|safe}}")'>Подробнее</button>
+			<button onclick='alert("{{event["full_description"]|replace("\r", "\\n")|replace("\n", "\\n")}}")'>Подробнее</button>
 			<br><br>
 			<a class='event_url' target="_blank" href='{{event["url"]}}'>Перейти</a>
 			<a class='event_del' href='{{event["del_url"]}}'>Удалить</a>
