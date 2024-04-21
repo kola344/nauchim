@@ -64,12 +64,31 @@ def admin_auth_page():
 @application.route('/admin/calendar_events')
 def admin_calendar_events_page():
     cookie = request.cookies.get('token')
+    print(cookie)
     if cookie == config.token:
         dbase = db.calendar_events_db()
         events = dbase.get_events_json()
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event')
     abort(404)
 
+@application.route('/admin/add_new_calendar_event')
+def admin_add_new_calendar_event_page():
+    cookie = request.cookies.get('token')
+    print(cookie)
+    if cookie == config.token:
+        return render_template('admin_calendar_add_event.html', url_back=f'{config.main_url}admin/calendar_events', url=f'{config.main_url}admin/calendar/add_event')
+    abort(404)
+
+@application.route('/admin/calendar/add_event', methods=["POST"])
+def admin_calendar_add_event_page():
+    cookie = request.cookies.get('token')
+    if cookie == config.token:
+        data = request.form
+        dbase = db.calendar_events_db()
+        dbase.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'])
+        events = dbase.get_events_json()
+        return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event')
+    abort(404)
 
 if __name__ == '__main__':
     application.run(debug=True)
