@@ -85,7 +85,7 @@ def admin_calendar_add_event_page():
     if cookie == config.token:
         data = request.form
         dbase = db.calendar_events_db()
-        dbase.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'])
+        dbase.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'])
         events = dbase.get_events_json()
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event')
     abort(404)
