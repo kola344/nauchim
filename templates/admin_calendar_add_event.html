@@ -54,12 +54,20 @@
 			color: white;
 			font-size: 15px;
 		}
-		textarea {
+		.desc {
 			padding: 5px;
 			margin-top: 5px;
 			width: 300px;
 			border-radius: 10px;
 			height: 100px;
+			border: none;
+		}
+		.fdsc {
+			padding: 5px;
+			margin-top: 5px;
+			width: 350px;
+			border-radius: 10px;
+			height: 200px;
 			border: none;
 		}
 	</style>
@@ -91,6 +99,8 @@
 			<input type='text' id='dates' name="dates"><br>
 			<label for='event_url'>Ссылка на мероприятие</label><br>
 			<input type="text" id="event_url" name="event_url"><br>
+			<label for="full_description">Подробное описание</label><br>
+			<textarea class="fdsc" type="text" id="full_description" name="full_description"></textarea><br>
 			<button type='submit'>Создать</button><br>
 			<a href='{{url_back}}'>Назад</a>
 		</form>

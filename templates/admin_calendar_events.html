@@ -75,6 +75,15 @@
 		.back_button:hover {
 			color: white;
 		}
+		button {
+			border-color: black;
+			border-radius: 10px;
+			background-color: white;
+			color: black;
+			padding: 5px;
+			cursor: pointer;
+			margin-top: 5px;
+		}
 	</style>
 </head>
 <body>
@@ -93,8 +102,10 @@
 			Номер телефона: {{event["phone_number"]}}<br>
 			email: {{event["email"]}}<br>
 			Начало регистрации: {{event["start_registration"]}}<br>
-			Даты проведения: {{event["dates"]}}<br><br>
-			<a class='event_url' target="_blank" href='{{event["url"]}}'>Подробнее</a>
+			Даты проведения: {{event["dates"]}}<br>
+			<button onclick='alert("{{event["full_description"]|safe}}")'>Подробнее</button>
+			<br><br>
+			<a class='event_url' target="_blank" href='{{event["url"]}}'>Перейти</a>
 			<a class='event_del' href='{{event["del_url"]}}'>Удалить</a>
 		</div>
 		{% endfor %}

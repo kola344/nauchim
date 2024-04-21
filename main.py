@@ -38,7 +38,7 @@ def add_calendar_event_apipage():
     if data['token'] == config.token:
         try:
             calendar_events_base = db.calendar_events_db()
-            calendar_events_base.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'])
+            calendar_events_base.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'], data['full_description'])
             return jsonify({"status": True})
         except:
             return jsonify({"status": False})
@@ -105,7 +105,7 @@ def admin_calendar_add_event_page():
     if cookie == config.token:
         data = request.form
         calendar_events_base = db.calendar_events_db()
-        calendar_events_base.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'])
+        calendar_events_base.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'], data['full_description'])
         events = calendar_events_base.get_events_json()
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
     abort(404)
@@ -122,5 +122,5 @@ def admin_del_calendar_event_page():
     abort(404)
 
 if __name__ == '__main__':
-    # application.run(host='10.10.34.249', port=12345, debug=True)
-    application.run(debug=True)
+    application.run(host='10.10.34.251', port=12345, debug=True)
+    #application.run(debug=True)
