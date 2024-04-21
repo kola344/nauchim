@@ -13,9 +13,10 @@ def index_page():
 def get_calendar_events_apipage():
     try:
         calendar_events_base = db.calendar_events_db()
-        data = calendar_events_base.get_events_json()
+        data = calendar_events_base.get_events_list()
         return jsonify({"status": True, "data": data})
-    except:
+    except Exception as e:
+        print(e)
         return jsonify({"status": False})
 
 @application.route('/api/get_calendar_events_with_filters', methods=["POST"])
