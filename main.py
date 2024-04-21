@@ -44,12 +44,32 @@ def delete_calendar_event_apipage():
 
 '''ADMIN'''
 @application.route('/admin')
-def admin_auth_page():
+def admin_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
-        return render_template('admin_main.html')
-    else:
-        return render_template('admin_auth.html')
+        return render_template('admin_main.html', url_calendar_events=f'{config.main_url}admin/calendar_events')
+    return render_template('admin_auth.html', url=f'{config.main_url}admin/auth', error='')
+
+@application.route('/admin/auth', methods=["POST"])
+def admin_auth_page():
+    data = request.form
+    print(data)
+    password = data['password']
+    if password == config.token:
+        resp = make_response(render_template('admin_main.html'))
+        resp.set_cookie('token', config.token, 30*24*60*60)
+        return resp
+    return render_template('admin_auth.html', url=f'{config.main_url}admin/auth', error='Неверный пароль')
+
+@application.route('/admin/calendar_events')
+def admin_calendar_events_page():
+    cookie = request.cookies.get('token')
+    if cookie == config.token:
+        dbase = db.calendar_events_db()
+        events = dbase.get_events_json()
+        return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event')
+    abort(404)
+
 
 if __name__ == '__main__':
     application.run(debug=True)
