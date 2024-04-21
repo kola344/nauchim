@@ -90,5 +90,9 @@ def admin_calendar_add_event_page():
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event')
     abort(404)
 
+@application.route('/admin/dele')
+def delelalfasd():
+    pass
+
 if __name__ == '__main__':
     application.run(debug=True)
