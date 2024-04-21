@@ -96,8 +96,7 @@ def admin_del_calendar_event_page():
         dbase.delete_event(event_name)
         events = dbase.get_events_json()
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'{config.main_url}admin/add_new_calendar_event', admin_main_url=f'{config.main_url}admin')
-
     abort(404)
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    application.run(host='10.10.34.249', port=25565, debug=True)
