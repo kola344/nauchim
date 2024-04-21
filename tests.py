@@ -31,7 +31,7 @@ def get_calendar_filters():
 
 def get_calendar_events_with_filters():
     url = 'http://127.0.0.1:5000/api/get_calendar_events_with_filters'
-    json = {"direction": "ит", "organizer": "маоу", "region": "нн", "format": "олайн"}
+    json = {"direction": "", "organizer": "", "region": "", "format": ""}
     return requests.post(url, json=json).json()
 
 if __name__ == '__main__':
