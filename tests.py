@@ -25,8 +25,14 @@ def add_calendar_event():
                  'date_start': date_start, 'dates': dates}
     return requests.post(url, json=json_data).json()
 
-def delete_calendar_event():
-    pass
+def get_calendar_filters():
+    url = 'http://127.0.0.1:5000/api/get_calendar_events_filters'
+    return requests.get(url).json()
+
+def get_calendar_events_with_filters():
+    url = 'http://127.0.0.1:5000/api/get_calendar_events_with_filters'
+    json = {"direction": "ит", "organizer": "маоу", "region": "нн", "format": "олайн"}
+    return requests.post(url, json=json).json()
 
 if __name__ == '__main__':
-    print(add_calendar_event())
+    print(get_calendar_events_with_filters())

@@ -18,6 +18,21 @@ def get_calendar_events_apipage():
     except:
         return jsonify({"status": False})
 
+@application.route('/api/get_calendar_events_with_filters', methods=["POST"])
+def get_calendar_events_with_filters():
+    try:
+        data = request.json
+        direction = data['direction']
+        format = data['format']
+        organizer = data['organizer']
+        region = data['region']
+        calendar_events_base = db.calendar_events_db()
+        data = calendar_events_base.get_events_with_filters_json(direction, format, organizer, region)
+        return jsonify({"status": True, "data": data})
+    except Exception as e:
+        print(e)
+        return jsonify({"status": False})
+
 @application.route('/api/add_calendar_event', methods=["POST"])
 def add_calendar_event_apipage():
     data = request.json
@@ -42,6 +57,15 @@ def delete_calendar_event_apipage():
             return jsonify({"status": False})
     abort(401)
 
+@application.route('/api/get_calendar_events_filters')
+def get_calendar_filters_apipage():
+    try:
+        calendar_events_base = db.calendar_events_db()
+        data = calendar_events_base.get_filters()
+        return jsonify({"status": True, "data": data})
+    except:
+        return jsonify({"status": False})
+
 '''ADMIN'''
 @application.route('/admin')
 def admin_page():
@@ -64,8 +88,8 @@ def admin_auth_page():
 def admin_calendar_events_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
-        dbase = db.calendar_events_db()
-        events = dbase.get_events_json()
+        calendar_events_base = db.calendar_events_db()
+        events = calendar_events_base.get_events_json()
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
     abort(404)
 
@@ -81,9 +105,9 @@ def admin_calendar_add_event_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
         data = request.form
-        dbase = db.calendar_events_db()
-        dbase.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'])
-        events = dbase.get_events_json()
+        calendar_events_base = db.calendar_events_db()
+        calendar_events_base.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'])
+        events = calendar_events_base.get_events_json()
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
     abort(404)
 
@@ -92,11 +116,12 @@ def admin_del_calendar_event_page():
     cookie = request.cookies.get('token')
     event_name = request.args.get('event_name')
     if cookie == config.token:
-        dbase = db.calendar_events_db()
-        dbase.delete_event(event_name)
-        events = dbase.get_events_json()
+        calendar_events_base = db.calendar_events_db()
+        calendar_events_base.delete_event(event_name)
+        events = calendar_events_base.get_events_json()
         return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
     abort(404)
 
 if __name__ == '__main__':
+    # application.run(host='10.10.34.249', port=12345, debug=True)
     application.run(debug=True)
