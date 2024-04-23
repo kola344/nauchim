@@ -32,45 +32,6 @@ def add_calendar_event_apipage():
     except:
         return jsonify({"status": False})
 
-'''fasdfasdf'''
-@application.route('/api/get_calendar_events_with_filters', methods=["POST"])
-def get_calendar_events_with_filters():
-    try:
-        data = request.json
-        direction = data['direction']
-        format = data['format']
-        organizer = data['organizer']
-        region = data['region']
-        calendar_events_base = db.calendar_events_db()
-        data = calendar_events_base.get_events_with_filters_json(direction, format, organizer, region)
-        return jsonify({"status": True, "data": data})
-    except Exception as e:
-        print(e)
-        return jsonify({"status": False})
-
-'''sdgasdasdfasdf'''
-@application.route('/api/delete_calendar_event')
-def delete_calendar_event_apipage():
-    data = request.json
-    if data['token'] == config.token:
-        try:
-            calendar_events_base = db.calendar_events_db()
-            calendar_events_base.delete_event(data['event_name'])
-            return jsonify({"status": True})
-        except:
-            return jsonify({"status": False})
-    abort(401)
-
-'''fasdfasdfas'''
-@application.route('/api/get_calendar_events_filters')
-def get_calendar_filters_apipage():
-    try:
-        calendar_events_base = db.calendar_events_db()
-        data = calendar_events_base.get_filters()
-        return jsonify({"status": True, "data": data})
-    except:
-        return jsonify({"status": False})
-
 '''ADMIN'''
 @application.route('/admin')
 def admin_page():
@@ -188,48 +149,6 @@ def organizer_calendar_add_event_page():
                                    data["awards"], data["universitets"], data["partners"], data["documents"],
                                    data["event_url"])
     return render_template('organizer_form_sended.html')
-
-'''fasdfasdfasd'''
-@application.route('/admin/calendar_events')
-def admin_calendar_events_page():
-    cookie = request.cookies.get('token')
-    if cookie == config.token:
-        calendar_events_base = db.calendar_events_db()
-        events = calendar_events_base.get_events_json()
-        return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
-    abort(404)
-
-'''fasdfasdfas'''
-@application.route('/admin/add_new_calendar_event')
-def admin_add_new_calendar_event_page():
-    cookie = request.cookies.get('token')
-    if cookie == config.token:
-        return render_template('admin_calendar_add_event.html', url_back=f'/admin/calendar_events', url=f'/admin/calendar/add_event')
-    abort(404)
-
-'''fasdfasdfasdf'''
-@application.route('/admin/calendar/add_event', methods=["POST"])
-def admin_calendar_add_event_page():
-    cookie = request.cookies.get('token')
-    if cookie == config.token:
-        data = request.form
-        calendar_events_base = db.calendar_events_db()
-        calendar_events_base.add_event(data['event_name'], data['description'], data['organizer'], data['region'], data['format'], data['direction'], data['person'], data['phone_number'], data['email'], data['date_start'], data['dates'], data['event_url'], data['full_description'])
-        events = calendar_events_base.get_events_json()
-        return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
-    abort(404)
-
-'''fasdfasdfasdfas'''
-@application.route('/admin/del_calendar_event')
-def admin_del_calendar_event_page():
-    cookie = request.cookies.get('token')
-    event_name = request.args.get('event_name')
-    if cookie == config.token:
-        calendar_events_base = db.calendar_events_db()
-        calendar_events_base.delete_event(event_name)
-        events = calendar_events_base.get_events_json()
-        return render_template('admin_calendar_events.html', events=events, url_new_event=f'/admin/add_new_calendar_event', admin_main_url=f'/admin')
-    abort(404)
 
 
 if __name__ == '__main__':
