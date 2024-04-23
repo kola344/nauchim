@@ -54,7 +54,7 @@
 			color: white;
 			font-size: 15px;
 		}
-		.desc {
+		.sdscpt {
 			padding: 5px;
 			margin-top: 5px;
 			width: 300px;
@@ -70,39 +70,61 @@
 			height: 200px;
 			border: none;
 		}
+		.error {
+			color: red;
+			font-size: 15px;
+		}
 	</style>
 </head>
 <body>
 	<center><div class='formblock'>
 		<form action='{{url}}' method="post">
-			<label for="event_name">Add event<br>Название мероприятия</label><br>
-			<input type='text' id='event_name' name='event_name'><br>
-			<label for="description">Описание</label><br>
-			<textarea class='desc' type='text' id='description' name='description'></textarea><br>
-			<label for='organizer'>Организатор</label><br>
-			<input type='text' id='organizer' name="organizer"><br>
-			<label for='region'>Регион</label><br>
-			<input type='text' id='region' name="region"><br>
-			<label for='format'>Формат</label><br>
-			<input type='text' id='format' name="format"><br>
-			<label for='direction'>Направление</label><br>
-			<input type='text' id='direction' name="direction"><br>
-			<label for='person'>Контактное лицо</label><br>
-			<input type='text' id='person' name="person"><br>
-			<label for='phone_number'>Номер телефона</label><br>
-			<input type='text' id='phone_number' name="phone_number"><br>
-			<label for='email'>Электронная почта</label><br>
-			<input type='text' id='email' name="email"><br>
-			<label for='date_start'>Начало регистрации</label><br>
-			<input type='text' id='date_start' name="date_start"><br>
-			<label for='dates'>Даты мероприятия</label><br>
-			<input type='text' id='dates' name="dates"><br>
-			<label for='event_url'>Ссылка на мероприятие</label><br>
-			<input type="text" id="event_url" name="event_url"><br>
+			<label for="short_name">Add event<br>Название мероприятия</label><br>
+			<input type='text' id='short_name' name='short_name'><br>
+			<label for="short_description">Краткое описание</label><br>
+			<textarea class="sdscpt" id="short_description" name="short_description"></textarea><br>
+			<label for="organizer">Организатор</label><br>
+			<input type="text" id="organizer" name="organizer"><br>
+			<label for="region">Регион</label><br>
+			<input type="text" id="region" name="region"><br>
+			<label for="format">Формат</label><br>
+			<input type="text" id="format" name="format"><br>
+			<label for="person">Контактное лицо</label><br>
+			<input type="text" id="person" name="person"><br>
+			<label for="phone_number">Номер телефона</label><br>
+			<input type="text" id="phone_number" name="phone_number"><br>
+			<label for="email">Электронная почта</label><br>
+			<input type="text" id="email" name="email"><br>
+			<label for="start_registration_date">Начало регистрации</label><br>
+			<input type="date" id="start_registration_date" name="start_registration_date"><br>
+			<label for="end_registration_date">Конец регистрации</label><br>
+			<input type="date" id="end_registration_date" name="end_registration_date"><br>
+			<label for="date_start">Дата начала</label><br>
+			<input type="date" id="date_start" name="date_start"><br>
+			<label for="date_end">Дата конца</label><br>
+			<input type="date" id="date_end" name="date_end"><br>
+			<label for="full_name">Полное название мероприятия</label><br>
+			<input type="text" id="full_name" name="full_name"><br>
+			<label for="checkpoints">Этапы. Пример записи:<br>17.04.2024: Регистрация<br>20.04.2024: Отборочный этап<br>21.04.2024: Финал</label><br>
+			<textarea class='sdscpt' id="checkpoints" name="checkpoints"></textarea><br>
 			<label for="full_description">Подробное описание</label><br>
-			<textarea class="fdsc" type="text" id="full_description" name="full_description"></textarea><br>
-			<button type='submit'>Создать</button><br>
-			<a href='{{url_back}}'>Назад</a>
+			<textarea id="full_description" class="fdsc" name="full_description"></textarea><br>
+			<label for="age">Возраст</label><br>
+			<input type="text" id="age" name="age"><br>
+			<label for="restrictions">Ограничения</label><br>
+			<textarea class="sdscpt" id="restrictions" name="restrictions"></textarea><br>
+			<label for="awards">Награды</label><br>
+			<textarea class="sdscpt" id="awards" name="awards"></textarea><br>
+			<label for="universitets">При поступлении</label><br>
+			<textarea class="sdscpt" id="universitets" name="universitets"></textarea><br>
+			<label for="partners">Партнеры</label><br>
+			<textarea class="sdscpt" id="partners" name="partners"></textarea><br>
+			<label for="documents">Ссылки на документы</label><br>
+			<textarea class="sdscpt" id="documents" name="documents"></textarea><br>
+			<label for="event_url">Ссылка на мероприятие</label><br>
+			<input type="text" id="event_url" name="event_url"><br>
+			<button type='submit'>Отправить</button><br>
+			<div class="error">{{error}}</div>
 		</form>
 	</div></center>
 </body>

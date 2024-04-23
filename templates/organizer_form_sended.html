@@ -3,18 +3,19 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Admin panel</title>
+	<meta lang="ru">
+	<title>Sended</title>
 	<style type="text/css">
 		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 		.panel {
 			display: flex;
-			flex-direction: column;
-			text-align: center;
+			justify-content: center;
+			flex-wrap: wrap;
 			border-radius: 10px;
 			padding: 20px;
 			background-color: rgba(0, 0, 0, 0.7);
 			animation: view 2s;
-			width: 50%;
+			width: 95%;
 			margin-top: 100px;
 			font-family: roboto;
 			color: white;
@@ -30,20 +31,12 @@
 				transform: translateY(0);
 			}
 		}
-		a {
-			margin-top: 15px;
-			background-color: white;
-			padding: 10px;
-			border-radius: 15px;
-			text-decoration: none;
-			color: black;
-		}
 	</style>
 </head>
 <body>
 	<center><div class='panel'>
-		<a href='{{url_calendar_events_list}}'>Календарные события</a>
-		<a href="{{url_calendar_events_applications}}">Новые календарные события</a>
+			Форма отправлена!
+		</div>
 	</div></center>
 </body>
 </html>
