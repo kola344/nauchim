@@ -5,10 +5,6 @@ import db
 application = Flask(__name__)
 
 '''API'''
-@application.route('/')
-def index_page():
-    return 'Hello World'
-
 @application.route('/api/get_calendar_events')
 def get_calendar_events_apipage():
     try:
@@ -130,13 +126,13 @@ def organizer_calendar_add_event_page():
         return render_template('admin_calendar_add_event.html', url='/organizer/calendar/add_event', error='Поле "Полное название мероприятия" обязательно')
     try:
         checkpoits_str_list = data["checkpoints"].split('\n')
-        checkpoints_list = '['
+        checkpoints_list = []
         for i in checkpoits_str_list:
             splited = i.split(':')
             date, description = splited[0], splited[1]
             item = {'date': date, "description": description}
-            checkpoints_list += f'{item},'
-        checkpoints = checkpoints_list[:-1] + ']'
+            checkpoints_list.append(item)
+        checkpoints = str(checkpoints_list)
     except:
         checkpoints = '[]'
     calendar_events_base = db.db_calendar_events()
@@ -152,7 +148,7 @@ def organizer_calendar_add_event_page():
 
 
 if __name__ == '__main__':
-    #application.run(host='10.10.34.251', port=12345, debug=True) # schnet
+    application.run(host='10.10.34.252', port=12345, debug=True) # schnet
     #application.run(host='100.123.95.222', port=12345, debug=True) #okean_10
-    application.run(host='192.168.173.237', port=12345, debug=True) #A53
+    #application.run(host='192.168.173.237', port=12345, debug=True) #A53
     #application.run(debug=True)
