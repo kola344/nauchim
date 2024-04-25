@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, jsonify, abort, make_response
+from flask import Flask, render_template, request, jsonify, abort, make_response, send_file
 import config
 import db
 
-application = Flask(__name__)
+app = Flask(__name__)
 
 '''API'''
-@application.route('/api/get_calendar_events')
+@app.route('/api/get_calendar_events')
 def get_calendar_events_apipage():
     try:
         calendar_events_base = db.db_calendar_events()
@@ -15,7 +15,7 @@ def get_calendar_events_apipage():
         print(e)
         return jsonify({"status": False})
 
-@application.route('/api/add_calendar_event', methods=["POST"])
+@app.route('/api/add_calendar_event', methods=["POST"])
 def add_calendar_event_apipage():
     data = request.json
     try:
@@ -29,14 +29,14 @@ def add_calendar_event_apipage():
         return jsonify({"status": False})
 
 '''ADMIN'''
-@application.route('/admin')
+@app.route('/admin')
 def admin_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
         return render_template('admin_main.html', url_calendar_events=f'/admin/calendar_events', url_calendar_events_list=f'/admin/calendar/list', url_calendar_events_applications=f'/admin/calendar/applications')
     return render_template('admin_auth.html', url=f'/admin/auth', error='')
 
-@application.route('/admin/auth', methods=["POST"])
+@app.route('/admin/auth', methods=["POST"])
 def admin_auth_page():
     data = request.form
     password = data['password']
@@ -46,7 +46,7 @@ def admin_auth_page():
         return resp
     return render_template('admin_auth.html', url=f'/admin/auth', error='Неверный пароль')
 
-@application.route('/admin/calendar/info')
+@app.route('/admin/calendar/info')
 def admin_calendar_event_info_page():
     full_name = request.args.get('full_name')
     calendar_events_base = db.db_calendar_events()
@@ -58,7 +58,7 @@ def admin_calendar_event_info_page():
             checkpoints_list.append(f'{i["date"]}: {i["description"]}')
     except:
         pass
-    checkpoints = '<br>'.join(checkpoints_list)
+    checkpoints = ' | '.join(checkpoints_list)
     full_description = data['full_description']
     age = data['age']
     restrictions = data['restrictions']
@@ -68,7 +68,7 @@ def admin_calendar_event_info_page():
     documents = data['documents']
     return render_template('admin_event_info.html', full_name=full_name, full_description=full_description, checkpoints=checkpoints, age=age, restrictions=restrictions, awards=awards, universitets=universitets, partners=partners, documents=documents)
 
-@application.route('/admin/calendar/list')
+@app.route('/admin/calendar/list')
 def admin_celandar_events_list_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
@@ -77,7 +77,7 @@ def admin_celandar_events_list_page():
         return render_template('admin_calendar_events_list.html', admin_main_url='/admin', events=events)
     abort(404)
 
-@application.route('/admin/calendar/applications')
+@app.route('/admin/calendar/applications')
 def admin_calendar_applications_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
@@ -85,7 +85,7 @@ def admin_calendar_applications_page():
         events = calendar_events_base.get_events_list(True, True)
         return render_template('admin_calendar_applications.html', admin_main_url='/admin', events=events)
 
-@application.route('/admin/calendar/del')
+@app.route('/admin/calendar/del')
 def admin_calendar_del_page():
     cookie = request.cookies.get('token')
     if cookie == config.token:
@@ -103,7 +103,7 @@ def admin_calendar_del_page():
         return render_template('admin_calendar_events_list.html', admin_main_url='/admin', events=events)
     abort(404)
 
-@application.route('/admin/calendar/accept')
+@app.route('/admin/calendar/accept')
 def admin_calendar_event_accept():
     cookie = request.cookies.get('token')
     if cookie == config.token:
@@ -114,11 +114,11 @@ def admin_calendar_event_accept():
         return render_template('admin_calendar_applications.html', admin_main_url='/admin', events=events)
 
 '''ORGANIZERS'''
-@application.route('/organizer/calendar/add')
+@app.route('/organizer/calendar/add')
 def organizer_calendar_add():
     return render_template('admin_calendar_add_event.html', url='/organizer/calendar/add_event')
 
-@application.route('/organizer/calendar/add_event', methods=["POST"])
+@app.route('/organizer/calendar/add_event', methods=["POST"])
 def organizer_calendar_add_event_page():
     data = request.form
     print(data["full_name"])
@@ -146,9 +146,14 @@ def organizer_calendar_add_event_page():
                                    data["event_url"])
     return render_template('organizer_form_sended.html')
 
+'''IMAGES'''
+@app.route('/images')
+def images_apipage():
+    image = request.args.get('image')
+    return send_file(f'images/{image}')
 
 if __name__ == '__main__':
-    application.run(host='10.10.34.252', port=12345, debug=True) # schnet
+    #application.run(host='10.10.34.252', port=12345, debug=True) # schnet
     #application.run(host='100.123.95.222', port=12345, debug=True) #okean_10
-    #application.run(host='192.168.173.237', port=12345, debug=True) #A53
+    app.run(host='192.168.173.237', port=12345, debug=True) #A53
     #application.run(debug=True)
