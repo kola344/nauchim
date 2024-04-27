@@ -116,25 +116,19 @@ def admin_calendar_event_accept():
 '''ORGANIZERS'''
 @app.route('/organizer/calendar/add')
 def organizer_calendar_add():
-    return render_template('admin_calendar_add_event.html', url='/organizer/calendar/add_event')
+    return render_template('admin_calendar_add_event.html', url='/organizer/calendar/add_event', regions=config.regions)
 
 @app.route('/organizer/calendar/add_event', methods=["POST"])
 def organizer_calendar_add_event_page():
     data = request.form
-    print(data["full_name"])
     if data['full_name'] == None or data["full_name"] == '':
         return render_template('admin_calendar_add_event.html', url='/organizer/calendar/add_event', error='Поле "Полное название мероприятия" обязательно')
-    try:
-        checkpoits_str_list = data["checkpoints"].split('\n')
-        checkpoints_list = []
-        for i in checkpoits_str_list:
-            splited = i.split(':')
-            date, description = splited[0], splited[1]
-            item = {'date': date, "description": description}
-            checkpoints_list.append(item)
-        checkpoints = str(checkpoints_list)
-    except:
-        checkpoints = '[]'
+    checkpoints_date = request.form.getlist("checkpoint-date")
+    checkpoints_description = request.form.getlist("checkpoint-description")
+    checkpoints = []
+    for i in range(len(checkpoints_date)):
+        checkpoints.append({"date": checkpoints_date[i], "description": checkpoints_description[i]})
+    checkpoints = str(checkpoints)
     calendar_events_base = db.db_calendar_events()
     calendar_events_base.add_event(data["short_name"], data["short_description"], data["organizer"], data["region"],
                                    data["format"],
@@ -155,5 +149,5 @@ def images_apipage():
 if __name__ == '__main__':
     #application.run(host='10.10.34.252', port=12345, debug=True) # schnet
     #application.run(host='100.123.95.222', port=12345, debug=True) #okean_10
-    app.run(host='192.168.173.237', port=12345, debug=True) #A53
-    #application.run(debug=True)
+    #app.run(host='192.168.173.237', port=12345, debug=True) #A53
+    app.run(debug=True)

@@ -9,8 +9,6 @@
 	<style type="text/css">
 		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-	
-
 		.formblock {
 			display: flex;
 			justify-content: center;
@@ -70,6 +68,7 @@
 			font-size: 16px;
 			width: 135px;
     		height: 33px;
+    		color: white;
 		}
 
 		a {
@@ -100,7 +99,43 @@
 		textarea {
 			font-size: 15px;
 		}
+		.chk {
+			width: 100px;
+		}
+		.chk-d {
+			width: 250px;
+		}
+		.chk-container {
+			font-size: 20px;
+		}
+		.addbutton {
+			background-color: lightblue
+		}
+		.dlchk {
+			background-color: red;
+			width: 100px;
+		}
+		.region_set {
+			width: 300px;
+		}
 	</style>
+	<script type="text/javascript">
+		let id = 0;
+		function add_checkpoint() {
+			var container = document.getElementById("checkpoints");
+			var newCheckpoint = document.createElement("div");
+			newCheckpoint.classList.add(`id${id}`)
+			newCheckpoint.innerHTML = `<input class="chk" type="date" name="checkpoint-date" placeholder="Дата"><input class="chk-d" type="text" name="checkpoint-description" placeholder="Описание">`;
+			container.appendChild(newCheckpoint);
+			id++;
+		}
+		function remove_checkpoint() {
+			id--;
+			console.log(id)
+			var element = document.querySelector(`.id${id}`);
+			element.parentNode.removeChild(element);
+		}
+	</script>
 </head>
 <body>
 	<center><div class='formblock'>
@@ -113,7 +148,12 @@
 			<label for="organizer">Организатор</label><br>
 			<input type="text" id="organizer" name="organizer"><br>
 			<label for="region">Регион</label><br>
-			<input type="text" id="region" name="region"><br>
+<!--			<input type="text" id="region" name="region"><br>-->
+			<select class="region_set" id="region" name="region">
+				{% for region in regions %}
+				<option value="{{region}}">{{region}}</option>
+				{% endfor %}
+			</select><br>
 			<label for="format">Формат</label><br>
 			<!-- <input type="text" id="format" name="format"><br> -->
 			<select id='format' name='format'>
@@ -136,8 +176,17 @@
 			<input type="date" id="date_end" name="date_end"><br>
 			<label for="full_name">Полное название мероприятия</label><br>
 			<input type="text" id="full_name" name="full_name"><br>
-			<label for="checkpoints">Этапы. Пример записи:<br>17.04.2024: Регистрация<br>20.04.2024: Отборочный этап<br>21.04.2024: Финал</label><br>
-			<textarea class='sdscpt' id="checkpoints" name="checkpoints"></textarea><br>
+			<div class='chk-container'>
+				Этапы
+				<div id='checkpoints'>
+					<div>
+						<input class='chk' type="date" name="checkpoint-date" placeholder="Дата">
+						<input class='chk-d' type="text" name="checkpoint-description" placeholder="Описание">
+					</div>
+				</div>
+				<button class='addbutton' type='button' onclick="add_checkpoint()">Добавить</button>
+				<button class='dlchk' type='button' onclick="remove_checkpoint()">Удалить</button>
+			</div><br>
 			<label for="full_description">Подробное описание</label><br>
 			<textarea id="full_description" class="fdsc" name="full_description"></textarea><br>
 			<label for="age">Возраст</label><br>
