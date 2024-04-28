@@ -1,5 +1,8 @@
 import sqlite3
 
+import config
+
+
 class db_calendar_events:
     def __init__(self):
         self.db = sqlite3.connect('database/cal_events.db')
@@ -57,6 +60,55 @@ class db_calendar_events:
     def accept_event(self, full_name):
         self.cursor.execute('UPDATE events SET accepted = "True" WHERE full_name = ?', (full_name, ))
         self.db.commit()
+
+class db_federal_events:
+    def __init__(self):
+        self.db = sqlite3.connect('database/fed_events.db')
+        self.cursor = self.db.cursor()
+
+    def add_event(self, short_name, short_description, full_name, full_description, checkpoints, tracks, partners, person_name, person_role, phone_number, email, documents, social_networks, end_description, custom_url, person_image_url, video_url):
+        item = (short_name, short_description, full_name, full_description, checkpoints, tracks, partners, person_name, person_role, phone_number, email, documents, social_networks, end_description, custom_url, person_image_url, video_url)
+        #checkpoint = {"date", "description"}
+        #track = {"title", "direction", "description", "url"}
+        #partners = {"title", "image_url"}
+        #social_network = {"title", "url"}
+        #document = {"title", "url"}
+        self.cursor.execute("INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", item)
+        self.db.commit()
+
+    def get_events_list(self):
+        self.cursor.execute("SELECT * FROM events")
+        data = self.cursor.fetchall()
+        events_list = []
+        for i in range(len(data))[::-1]:
+            item = data[i]
+            event = {"short_name": item[0], "short_description": item[1],
+                     "full_name": item[2], "full_description": item[3],
+                     "checkpoints": eval(item[4]), "tracks": eval(item[5]),
+                     "partners": eval(item[6]), "person_name": item[7],
+                     "person_role": item[8], "phone_number": item[9],
+                     "email": item[10], "documents": eval(item[11]),
+                     "social_networks": eval(item[12]), "end_description": item[13], "custom_url": item[14], "person_image_url": item[15], "video_url": item[16], "del_url": f"/admin/federal/del?event={item[2]}", "nauchim_url": config.nauchim_url}
+            events_list.append(event)
+        return events_list
+
+    def get_event_info(self, full_name):
+        self.cursor.execute("SELECT * FROM events WHERE full_name = ?", (full_name, ))
+        item = self.cursor.fetchone()
+        event = {"short_name": item[0], "short_description": item[1],
+                 "full_name": item[2], "full_description": item[3],
+                 "checkpoints": eval(item[4]), "tracks": eval(item[5]),
+                 "partners": eval(item[6]), "person_name": item[7],
+                 "person_role": item[8], "phone_number": item[9],
+                 "email": item[10], "documents": eval(item[11]),
+                 "social_networks": eval(item[12]), "end_description": item[13], "person_image_url": item[15], "custom_url": item[14], "video_url": item[16]}
+        return event
+
+    def delete_event(self, full_name):
+        self.cursor.execute('DELETE FROM events WHERE full_name = ?', (full_name,))
+        self.db.commit()
+
+
 
 if __name__ == '__main__':
     db = db_calendar_events()
