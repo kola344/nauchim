@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, abort, make_response, send_file
 import config
 import db
+import os
+import shutil
 
 app = Flask(__name__)
 
@@ -217,6 +219,40 @@ def admin_federal_del_page():
         return render_template('admin_federal_events.html', events=events)
     abort(404)
 
+@app.route('/admin/file_manager')
+def admin_file_manager_page():
+    cookie = request.cookies.get('token')
+    if cookie == config.token:
+        return render_template('admin_file_manager.html', files=os.listdir('files'))
+    abort(404)
+
+@app.route('/admin/file/add', methods=["POST"])
+def admin_file_add_page():
+    cookie = request.cookies.get('token')
+    if cookie == config.token:
+        if 'file' in request.files:
+            file = request.files['file']
+            if file:
+                file.save(f'files/{file.filename}')
+            return render_template('admin_file_manager.html', files=os.listdir('files'))
+    abort(404)
+
+@app.route('/admin/file/del')
+def admin_file_del_page():
+    cookie = request.cookies.get('token')
+    if cookie == config.token:
+        try:
+            file = request.args.get('file')
+            if not os.path.exists('Temp'):
+                os.mkdir('Temp')
+            shutil.move(f'files/{file}', f'Temp')
+            shutil.rmtree('Temp')
+        except:
+            pass
+        return render_template('admin_file_manager.html', files=os.listdir('files'))
+
+    abort(404)
+
 '''ORGANIZERS'''
 @app.route('/organizer/calendar/add')
 def organizer_calendar_add():
@@ -249,6 +285,12 @@ def organizer_calendar_add_event_page():
 def images_apipage():
     image = request.args.get('image')
     return send_file(f'images/{image}')
+
+'''FILES'''
+@app.route('/files')
+def files_apipage():
+    file = request.args.get('file')
+    return send_file(f'files/{file}')
 
 if __name__ == '__main__':
     #application.run(host='10.10.34.252', port=12345, debug=True) # schnet
