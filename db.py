@@ -93,7 +93,7 @@ class db_federal_events:
         return events_list
 
     def get_event_info(self, full_name):
-        self.cursor.execute("SELECT * FROM events WHERE full_name = ?", (full_name, ))
+        self.cursor.execute("SELECT * FROM events WHERE custom_url = ?", (full_name, ))
         item = self.cursor.fetchone()
         event = {"short_name": item[0], "short_description": item[1],
                  "full_name": item[2], "full_description": item[3],

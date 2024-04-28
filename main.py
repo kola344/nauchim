@@ -43,7 +43,7 @@ def get_federal_event_info_apipage():
     data = request.json
     try:
         federal_events_base = db.db_federal_events()
-        data = federal_events_base.get_event_info(data["full_name"])
+        data = federal_events_base.get_event_info(data["custom_url"])
         return jsonify({"status": True, "data": data})
     except Exception as e:
         print(e)

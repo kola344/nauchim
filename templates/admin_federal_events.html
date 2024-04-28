@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta lang="ru">
+	<title>Calendar Events</title>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+		.panel {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			border-radius: 10px;
+			padding: 20px;
+			background-color: rgba(0, 0, 0, 0.7);
+			animation: view 2s;
+			width: 95%;
+			margin-top: 100px;
+			font-family: roboto;
+			color: black;
+			font-size: 30px;
+		}
+		@keyframes view {
+			from {
+				opacity: 0;
+				transform: translateY(10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+		.event {
+			margin: 10px;
+			width: 350px;
+			height: 500px;
+			background-color: white;
+			border-radius: 10px;
+			font-size: 18px;
+			padding: 10px;
+		}
+		.new_event {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: lightgray;
+			font-size: 250px;
+			text-decoration: none;
+		}
+		.new_event:hover {
+			color: gray;
+		}
+		.event_url {
+			color: white;
+			text-decoration: none;
+			padding: 5px;
+			background-color: lightgreen;
+			border-radius: 5px;
+		}
+		.event_del {
+			color: white;
+			text-decoration: none;
+			padding: 5px;
+			background-color: red;
+			border-radius: 5px;
+		}
+		.back_button {
+			padding: 10px;
+			text-decoration: none;
+			color: lightgray;
+			border-radius: 5px;
+			background-color: gray;
+		}
+		.back_button:hover {
+			color: white;
+		}
+		button {
+			border-color: black;
+			border-radius: 10px;
+			background-color: white;
+			color: black;
+			padding: 5px;
+			cursor: pointer;
+			margin-top: 5px;
+		}
+	</style>
+</head>
+<body>
+	<a class='back_button' href='/admin'>Назад</a>
+	<center><div class='panel'>
+		<div class='event'><a class='new_event' href='/admin/federal/add'>+</a></div>
+		{% for event in events %}
+		<div class='event'>
+			{{event["short_name"]}}<br>
+			{{event["short_description"]}}<br><br>
+			<a class='event_url' href='{{event["nauchim_url"]}}/{{event["custom_url"]}}'>Перейти</a>
+			<a class='event_del' href='{{event["del_url"]}}'>Удалить</a>
+		</div>
+		{% endfor %}
+	</div></center>
+</body>
+</html>

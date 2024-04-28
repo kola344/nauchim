@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!-- saved from url=(0113)https://www.pythonanywhere.com/user/berryrise/files/home/berryrise/mysite/templates/admin_calendar_add_event.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="./admin_calendar_add_event_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="./admin_calendar_add_event_files/bootstrap.bundle.min.js.загрузка" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<title>Add Event</title>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+		.formblock {
+			display: flex;
+			justify-content: center;
+			text-align: center;
+			border-radius: 10px;
+			padding: 20px;
+			background-color: rgba(255, 255, 255, 0.7);
+			animation: view 2s;
+			width: 450px;
+			margin-top: 100px;
+			margin-bottom: 100px;
+			font-family: roboto;
+			color: rgb(0, 0, 0);
+			font-size: 30px;
+			border: 1px solid rgba(57, 56, 56, 0.541);
+		}
+		@keyframes view {
+			from {
+				opacity: 0;
+				transform: translateY(10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+		body {
+			background-image: url("/images?image=calendar_back.png");
+		}
+		label {
+			font-size: 18px;
+			font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+		}
+		input {
+			margin-top: 5px;
+			width: 300px;
+			border-radius: 10px;
+			height: 30px;
+			border: 1px solid rgba(57, 56, 56, 0.541);
+			text-align: center;
+			font-size: 15px;
+		}
+		select {
+			margin-top: 5px;
+			width: 150px;
+			border-radius: 10px;
+			height: 30px;
+			border: 1px solid rgba(57, 56, 56, 0.541);
+			text-align: center;
+			font-size: 15px;
+		}
+		button {
+			background-color: rgb(33 253 29);
+			border: none;
+			border-radius: 10px;
+			cursor: pointer;
+			font-size: 16px;
+			width: 135px;
+    		height: 33px;
+    		color: white;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+			font-size: 15px;
+		}
+		.sdscpt {
+			padding: 5px;
+			margin-top: 5px;
+			width: 300px;
+			border-radius: 10px;
+			height: 100px;
+			border: 1px solid rgba(57, 56, 56, 0.541);
+		}
+		.fdsc {
+			padding: 5px;
+			margin-top: 5px;
+			width: 350px;
+			border-radius: 10px;
+			height: 200px;
+			border: 1px solid rgba(57, 56, 56, 0.541);
+		}
+		.error {
+			color: red;
+			font-size: 15px;
+		}
+		textarea {
+			font-size: 15px;
+		}
+		.chk {
+			width: 100px;
+		}
+		.chk-d {
+			width: 250px;
+		}
+		.chk-container, .track-container, .partners-container, .documents-container, .social_networks-container {
+			font-size: 20px;
+		}
+		.addbutton {
+			background-color: lightblue
+		}
+		.dlbutton {
+			background-color: red;
+			width: 100px;
+		}
+		.region_set {
+			width: 300px;
+		}
+	</style>
+	<script type="text/javascript">
+		let chk_id = 0;
+		function add_checkpoint() {
+			var container = document.getElementById("checkpoints");
+			var newCheckpoint = document.createElement("div");
+			newCheckpoint.classList.add(`chk_id${chk_id}`)
+			newCheckpoint.innerHTML = `<input class="chk" type="date" name="checkpoint-date" placeholder="Дата"><input class="chk-d" type="text" name="checkpoint-description" placeholder="Описание">`;
+			container.appendChild(newCheckpoint);
+			chk_id++;
+		}
+		function remove_checkpoint() {
+			chk_id--;
+			var element = document.querySelector(`.chk_id${chk_id}`);
+			element.parentNode.removeChild(element);
+		}
+
+
+		let track_id = 0;
+		function add_track() {
+			var container = document.getElementById("tracks");
+			var newTrack = document.createElement("div");
+			newTrack.classList.add(`track_id${track_id}`);
+			newTrack.innerHTML = `<input class='track-title' type="text" name="track-title" placeholder="Название"><br>
+					<input class='track-direction' type="text" name="track-direction" placeholder="Направление"><br>
+					<input class='track-description' name="track-description" placeholder="Описание"><br>
+					<input class="track-url" type="text" name="track-url" placeholder="Ссылка"><br><br>`;
+			container.appendChild(newTrack);
+			track_id++;
+		}
+		function remove_track() {
+			track_id--;
+			var element = document.querySelector(`.track_id${track_id}`);
+			element.parentNode.removeChild(element);
+		}
+
+
+		let partner_id = 0;
+		function add_partner() {
+			var container = document.getElementById("partners");
+			var newPartner = document.createElement("div");
+			newPartner.classList.add(`partner_id${partner_id}`)
+			newPartner.innerHTML = `<input class="partner-title" type="text" name="partner-title" placeholder="Партнер"><br>
+					<input class="partner-image_url" type="text" name="partner-image_url" placeholder="Ссылка на изображение"><br><br>`;
+			container.appendChild(newPartner);
+			partner_id++;
+		}
+		function remove_partner() {
+			partner_id--;
+			var element = document.querySelector(`.partner_id${partner_id}`);
+			element.parentNode.removeChild(element)
+		}
+		
+
+		let document_id = 0;
+		function add_document() {
+			var container = document.getElementById("documents");
+			var newDocument = document.createElement("div");
+			newDocument.classList.add(`document_id${document_id}`);
+			newDocument.innerHTML = `<input type="text" name="document-title" placeholder="Название"><br>
+					<input type="text" name="document-url" placeholder="Ссылка"><br><br>`;
+			container.appendChild(newDocument);
+			document_id++;
+		}
+		function remove_document() {
+			document_id--;
+			var element = document.querySelector(`.document_id${document_id}`);
+			element.parentNode.removeChild(element);
+		}
+
+		let social_network_id = 0;
+		function add_social_network() {
+			var container = document.getElementById('social_networks');
+			var newSocial_network = document.createElement("div");
+			newSocial_network.classList.add(`social_network_id${social_network_id}`);
+			newSocial_network.innerHTML = `<input type="text" name="social_network-title" id="social_network-title" placeholder="Название"><br>
+					<input type="text" name="social_network-url" id="social_network-url" placeholder="Ссылка"><br><br>`;
+			container.appendChild(newSocial_network);
+			social_network_id++;
+		}
+		function remove_social_network() {
+			social_network_id--;
+			var element = document.querySelector(`.social_network_id${social_network_id}`)
+			element.parentNode.removeChild(element)
+		}
+	</script>
+</head>
+<body>
+	<center><div class="formblock">
+		<form action="/admin/federal/add_event" method="post">
+			<label style="font-weight: bold;">Добавление федерального мероприятия</label><br>
+			<label for="short_name">Название мероприятия</label><br>
+			<input type="text" id="short_name" name="short_name"><br>
+			<label for="short_description">Краткое описание</label><br>
+			<textarea class="sdscpt" id="short_description" name="short_description"></textarea><br>
+			<label for="full_name">Полное название мероприятия</label><br>
+			<input type="text" id="full_name" name="full_name"><br>
+			<label for="full_description">Полное описание</label><br>
+			<textarea id="full_description" class="fdsc" name="full_description"></textarea><br>
+			<div class="chk-container">
+				Этапы
+				<div id="checkpoints">
+					<div>
+						<input class="chk" type="date" name="checkpoint-date" placeholder="Дата">
+						<input class="chk-d" type="text" name="checkpoint-description" placeholder="Описание">
+					</div>
+				</div>
+				<button class="addbutton" type="button" onclick="add_checkpoint()">Добавить</button>
+				<button class="dlbutton" type="button" onclick="remove_checkpoint()">Удалить</button>
+			</div><br>
+			<div class="track-container">
+				Треки
+				<div id="tracks">
+					<input class='track-title' type="text" name="track-title" placeholder="Название"><br>
+					<input class='track-direction' type="text" name="track-direction" placeholder="Направление"><br>
+					<input class='track-description' name="track-description" placeholder="Описание"><br>
+					<input class="track-url" type="text" name="track-url" placeholder="Ссылка"><br><br>
+				</div>
+				<button class='addbutton' type='button' onclick="add_track()">Добавить</button>
+				<button class='dlbutton' type='button' onclick="remove_track()">Удалить</button>
+			</div><br>
+			<div class="partners-container">
+				Партнеры
+				<div id="partners">
+					<input class="partner-title" type="text" name="partner-title" placeholder="Партнер"><br>
+					<input class="partner-image_url" type="text" name="partner-image_url" placeholder="Ссылка на изображение"><br><br>
+				</div>
+				<button class='addbutton' type='button' onclick="add_partner()">Добавить</button>
+				<button class='dlbutton' type='button' onclick="remove_partner()">Удалить</button>
+			</div><br>
+			<label for="person_name">Имя контактного лица</label><br>
+			<input type="text" name="person_name" id="person_name"><br>
+			<label for="person_role">Роль контактного лица</label><br>
+			<input type="text" name="person_role" id="person_role"><br>
+			<label for="person_image_url">Ссылка на изображение</label><br>
+			<input type="text" name="person_image_url" id="person_image_url"><br>
+			<label for="phone_number">Номер телефона</label><br>
+			<input type="text" name="phone_number" id="phone_number"><br>
+			<label for="email">Электронная почта</label><br>
+			<input type="text" id="email" name="email"><br>
+			<div class="documents-container">
+				Документы
+				<div id="documents">
+					<input type="text" name="document-title" placeholder="Название"><br>
+					<input type="text" name="document-url" placeholder="Ссылка"><br><br>
+				</div>
+				<button class='addbutton' type='button' onclick="add_document()">Добавить</button>
+				<button class='dlbutton' type='button' onclick="remove_document()">Удалить</button>
+			</div><br>
+			<div class='social_networks-container'>
+				Социальные сети
+				<div id='social_networks'>
+					<input type="text" name="social_network-title" id="social_network-title" placeholder="Название"><br>
+					<input type="text" name="social_network-url" id="social_network-url" placeholder="Ссылка"><br><br>
+				</div>
+				<button class='addbutton' type='button' onclick="add_social_network()">Добавить</button>
+				<button class='dlbutton' type='button' onclick="remove_social_network()">Удалить</button>
+			</div><br>
+			<label for="end_description">Дополнительная информация</label><br>
+			<textarea class='fdsc' id="end_description" name="end_description"></textarea><br>
+			<label for="video_url">Ссылка на видео</label><br>
+			<input type="text" name="video_url" id="video_url"><br>
+			<label for="custom_url">Ссылка мероприятия</label><br>
+			<input type="text" name="custom_url" id="custom_url" placeholder="ex. space_event"><br>
+			<a href='/admin/federal'>Назад</a><br>
+			<button type="submit">Отправить</button>
+			<div class="error">{{error}}</div>
+		</form>
+	</div></center>
+
+</body></html>

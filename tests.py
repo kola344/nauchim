@@ -36,7 +36,7 @@ def get_calendar_events_with_filters():
 
 def get_federal_events():
     url = 'http://127.0.0.1:5000/api/get_federal_event_info'
-    json = {"full_name": "Тест"}
+    json = {"custom_url": "space_event"}
     return requests.post(url, json=json).json()
 
 if __name__ == '__main__':
