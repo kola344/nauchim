@@ -159,7 +159,7 @@ def admin_federal_add_event_page():
         if data["full_name"] == None or data["full_name"] == '':
             return render_template('admin_add_federal_event.html', error='Поле "Полное название мероприятия" обязательно')
         if data['custom_url'] == None or data['custom_url'] == '':
-            return render_template('admin_add_federal_event.html', error='Поле "Ссылкая мероприятия" обязательно')
+            return render_template('admin_add_federal_event.html', error='Поле "Ссылка мероприятия" обязательно')
         # checkpoint = {"date", "description"}
         # track = {"title", "direction", "description", "url"}
         # partners = {"title", "image_url"}
